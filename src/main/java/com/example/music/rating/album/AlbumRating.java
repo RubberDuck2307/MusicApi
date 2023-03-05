@@ -3,8 +3,15 @@ package com.example.music.rating.album;
 import com.example.music.album.Album;
 import com.example.music.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Data
 @Entity
 @Table(schema = "music")
@@ -23,19 +30,11 @@ public class AlbumRating {
     @JoinColumn(name = "album_id")
     private Album album;
 
+    String review;
     int rating;
 
 
-    public AlbumRating(Album album, User user, int rating) {
-        id = new AlbumRatingKey();
-        id.setAlbumId(album.getId());
-        id.setUserId(user.getId());
-        this.album = album;
-        this.user = user;
-        this.rating = rating;
-    }
-
-    public AlbumRating() {
-
+    public String toString(){
+        return id.toString() + review + rating;
     }
 }

@@ -43,6 +43,10 @@ public class UserCredentials implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(mappedBy = "userCredentials", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private User user;
+
     public UserCredentials(String userEmail, String password) {
         this.userEmail = userEmail;
         this.password = password;

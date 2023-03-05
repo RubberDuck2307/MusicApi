@@ -19,18 +19,18 @@ public class AlbumRatingService {
     private final AlbumRepository albumRepository;
     private final UserCredentialsRepository userCredentialsRepository;
     private final UserRepository userRepository;
-    public void rateAlbum(Integer id){
+
+    public void rateAlbum(Integer albumId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserCredentials userCredentials = (UserCredentials) auth.getPrincipal();
-        User user = userRepository.findById(1).orElseThrow();
-        Album album = albumRepository.findById(id).orElseThrow();
-        System.out.println(album);
-        System.out.println(user);
-
-        ratingRepository.save(new AlbumRating(album, user, 10));
-        System.out.println(album.getRatings());
+        User user = userRepository.findById(userCredentials.getId()).orElseThrow();
+        Album album = albumRepository.findById(albumId).orElseThrow();
+        AlbumRatingKey key = new AlbumRatingKey(user.getId(), albumId);
+        AlbumRating albumRating = new AlbumRating( key, user, album, "good", 10);
+        ratingRepository.save(albumRating);
+        album.addRating(albumRating);
+        user.addAlbumRating(albumRating);
     }
-
 
 
 }

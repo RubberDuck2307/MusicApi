@@ -22,4 +22,10 @@ public class Album {
     private Set<Artist> artists;
     @OneToMany(mappedBy = "album")
     private Set<AlbumRating> ratings;
+
+    public void addRating(AlbumRating rating){
+        ratings.add(rating);
+
+    }
+
 }

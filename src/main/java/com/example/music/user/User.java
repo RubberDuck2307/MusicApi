@@ -4,9 +4,10 @@ import com.example.music.rating.album.AlbumRating;
 import com.example.music.rating.SongRating;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
-
+@NoArgsConstructor
 @Data
 @Table( schema = "music")
 @Entity
@@ -17,9 +18,21 @@ public class User {
     private Integer id;
 
     @OneToMany(mappedBy = "user")
-    Set<AlbumRating> albumRatings;
+    private Set<AlbumRating> albumRatings;
 
     @OneToMany(mappedBy = "user")
-    Set<SongRating> songRatings;
+    private Set<SongRating> songRatings;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private UserCredentials userCredentials;
+
+    public User(Integer id){
+        this.id = id;
+    }
+
+    public void addAlbumRating(AlbumRating rating){
+        albumRatings.add(rating);
+    }
 
 }
