@@ -1,11 +1,16 @@
-package com.example.music.rating;
+package com.example.music.rating.song;
 
 import com.example.music.song.Song;
 import com.example.music.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
 @Table(schema = "music")
 public class SongRating {
@@ -22,4 +27,11 @@ public class SongRating {
     @MapsId("song_id")
     @JoinColumn(name = "song_id")
     private Song song;
+
+    private int value;
+    private String description;
+
+    public SongRating() {
+
+    }
 }

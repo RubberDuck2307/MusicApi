@@ -1,11 +1,13 @@
-package com.example.music.rating;
+package com.example.music.rating.song;
 
 import com.example.music.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 
 import java.io.Serializable;
 
+@AllArgsConstructor
 @Embeddable
 public class SongRatingKey implements Serializable {
 
@@ -16,4 +18,7 @@ public class SongRatingKey implements Serializable {
     private Integer songId;
 
 
+    public SongRatingKey() {
+
+    }
 }

@@ -1,10 +1,7 @@
 package com.example.music.song;
 
-import com.example.music.rating.SongRating;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.example.music.rating.song.SongRating;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Set;
@@ -15,8 +12,12 @@ import java.util.Set;
 public class Song {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToMany(mappedBy = "song")
     private Set<SongRating> ratings;
 
+    public void addRating(SongRating rating){
+        ratings.add(rating);
+    }
 }

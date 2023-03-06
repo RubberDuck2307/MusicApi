@@ -1,14 +1,14 @@
 package com.example.music.user;
 
 import com.example.music.rating.album.AlbumRating;
-import com.example.music.rating.SongRating;
+import com.example.music.rating.song.SongRating;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table( schema = "music")
 @Entity
 public class User {
@@ -33,6 +33,10 @@ public class User {
 
     public void addAlbumRating(AlbumRating rating){
         albumRatings.add(rating);
+    }
+
+    public void addSongRating(SongRating rating){
+        songRatings.add(rating);
     }
 
 }

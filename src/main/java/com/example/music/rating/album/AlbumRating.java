@@ -3,16 +3,14 @@ package com.example.music.rating.album;
 import com.example.music.album.Album;
 import com.example.music.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(schema = "music")
 public class AlbumRating {
@@ -21,20 +19,28 @@ public class AlbumRating {
     private AlbumRatingKey id;
 
     @ManyToOne
-    @MapsId("UserId")
+    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @MapsId("AlbumId")
+    @MapsId("albumId")
     @JoinColumn(name = "album_id")
     private Album album;
+
 
     String review;
     int rating;
 
+    public AlbumRating(User user, Album album, String review, int rating) {
+        this.user = user;
+        this.album = album;
+        this.review = review;
+        this.rating = rating;
+    }
+
 
     public String toString(){
-        return id.toString() + review + rating;
+        return   review + rating;
     }
 }
