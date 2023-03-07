@@ -2,6 +2,7 @@ package com.example.music.artist;
 
 
 import com.example.music.artist.written_by.album.AlbumWrittenByArtist;
+import com.example.music.artist.written_by.song.SongWrittenByArtist;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,12 +27,22 @@ public class Artist {
     @OneToMany(mappedBy = "artist")
     private Set<AlbumWrittenByArtist> albumsWritten;
 
+    @OneToMany(mappedBy = "artist")
+    private Set<SongWrittenByArtist> songsWritten;
+
 
     public void addAlbum(AlbumWrittenByArtist album){
         albumsWritten.add(album);
     }
     public void removeAlbum(AlbumWrittenByArtist albumWrittenByArtist){
         albumsWritten.remove(albumWrittenByArtist);
+    }
+
+    public void addSong(SongWrittenByArtist song){
+        songsWritten.add(song);
+    }
+    public void removeSong(SongWrittenByArtist song){
+        songsWritten.remove(song);
     }
 
 }

@@ -48,8 +48,12 @@ public class AlbumWrittenByArtistService {
         Album album = albumRepository.findById(request.getItemId()).orElseThrow();
 
         AlbumWrittenByArtistKey key = new AlbumWrittenByArtistKey(request.getArtistId(), request.getItemId());
+        AlbumWrittenByArtist albumWrittenByArtist = writtenByRepository.findById(key).orElseThrow();
 
-        writtenByRepository.deleteById(key);
+        artist.removeAlbum(albumWrittenByArtist);
+        album.removeWrittenBy(albumWrittenByArtist);
+
+        writtenByRepository.delete(albumWrittenByArtist);
 
 
 
@@ -58,9 +62,9 @@ public class AlbumWrittenByArtistService {
 
     public ResponseEntity<List<AlbumDTO>> getAllAlbumsOfArtist(int id){
         Artist artist = artistRepository.findById(id).orElseThrow();
-        List<AlbumWrittenByArtist> writtenBy = writtenByRepository.findAllByArtist(artist);
         List<AlbumDTO> albums = new ArrayList<>();
-        writtenBy.forEach((record) -> albums.add(record.getAlbum().getDTO()));
+        artist.getAlbumsWritten().forEach((record) -> albums.add(record.getAlbum().getDTO()));
+
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 }

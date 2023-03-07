@@ -1,6 +1,7 @@
 package com.example.music.song;
 
 import com.example.music.album.Album;
+import com.example.music.artist.written_by.song.SongWrittenByArtist;
 import com.example.music.rating.song.SongRating;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -35,7 +36,21 @@ public class Song {
     @Column(columnDefinition="TEXT")
     private String lyrics;
 
+    @OneToMany(mappedBy = "song")
+    private Set<SongWrittenByArtist> writtenBy;
     public void addRating(SongRating rating){
         ratings.add(rating);
+    }
+
+    public void addWrittenBy(SongWrittenByArtist song){
+        writtenBy.add(song);
+    }
+
+    public void removeWrittenBy(SongWrittenByArtist song){
+        writtenBy.remove(song);
+    }
+
+    public SongDTO getDTO(){
+        return new SongDTO(id, title, length, releaseDate, lyrics);
     }
 }
