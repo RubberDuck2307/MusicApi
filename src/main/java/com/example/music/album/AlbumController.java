@@ -12,16 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class AlbumController {
 
     private final AlbumService service;
-    private final UserRepository repository;
 
     @PostMapping("/")
     public void createAlbum(@RequestBody Album album){
         service.createAlbum(album);
-    }
-
-    @PostMapping("/user")
-    public void createUser(@RequestBody User user){
-        repository.save(user);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.music.artist;
 
 
-import com.example.music.album.Album;
+import com.example.music.artist.written_by.album.AlbumWrittenByArtist;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,10 +23,15 @@ public class Artist {
     private String lastName;
     private String nickname;
     private Date dob;
-    @ManyToMany
-    @JoinTable(name = "Album_written",
-    joinColumns = @JoinColumn(name = "artist_id"),
-    inverseJoinColumns = @JoinColumn(name = "album_id"),
-    schema = "music")
-    private Set<Album> albumsWritten;
+    @OneToMany(mappedBy = "artist")
+    private Set<AlbumWrittenByArtist> albumsWritten;
+
+
+    public void addAlbum(AlbumWrittenByArtist album){
+        albumsWritten.add(album);
+    }
+    public void removeAlbum(AlbumWrittenByArtist albumWrittenByArtist){
+        albumsWritten.remove(albumWrittenByArtist);
+    }
+
 }

@@ -38,10 +38,6 @@ public class ArtistController {
 
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> exceptionTest(){
-        throw new RuntimeException();
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteArtist(@PathVariable Integer id){
