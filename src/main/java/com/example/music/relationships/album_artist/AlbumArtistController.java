@@ -1,25 +1,23 @@
-package com.example.music.artist.written_by.album;
+package com.example.music.relationships.album_artist;
 
 import com.example.music.album.Album;
-import com.example.music.album.AlbumDTO;
-import com.example.music.artist.written_by.WrittenByRequest;
+import com.example.music.relationships.WrittenByRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Controller
 @RequestMapping("api/v1/artist/album")
 @RequiredArgsConstructor
-public class AlbumWrittenByArtistController {
+public class AlbumArtistController {
 
-    private final AlbumWrittenByArtistService writtenByService;
+    private final AlbumArtistService writtenByService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<AlbumDTO>> getAllAlbumsOfArtist(@PathVariable int id){
+    public ResponseEntity<List<Album>> getAllAlbumsOfArtist(@PathVariable int id){
         return writtenByService.getAllAlbumsOfArtist(id);
 
     }

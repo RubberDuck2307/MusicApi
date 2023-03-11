@@ -1,17 +1,24 @@
 package com.example.music.song;
 
 import com.example.music.album.Album;
-import com.example.music.artist.written_by.song.SongWrittenByArtist;
+import com.example.music.artist.Artist;
 import com.example.music.rating.song.SongRating;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+
+@Setter
+@Getter
+@RequiredArgsConstructor
 @Entity
 @Table(schema = "music")
 public class Song {
@@ -24,6 +31,8 @@ public class Song {
 
     @ManyToOne
     @JoinColumn(name="album_id")
+    @JsonBackReference("album_song")
+
     private Album album;
 
     private String title;
@@ -36,21 +45,23 @@ public class Song {
     @Column(columnDefinition="TEXT")
     private String lyrics;
 
-    @OneToMany(mappedBy = "song")
-    private Set<SongWrittenByArtist> writtenBy;
+    @JsonBackReference("artist_song")
+    @ManyToMany(mappedBy = "songs")
+
+    private Set<Artist> artists;
     public void addRating(SongRating rating){
+        if (ratings == null) ratings = new HashSet<>();
         ratings.add(rating);
     }
 
-    public void addWrittenBy(SongWrittenByArtist song){
-        writtenBy.add(song);
+    public void addWrittenBy(Artist artist){
+        if (artists == null) artists = new HashSet<>();
+        artists.add(artist);
     }
 
-    public void removeWrittenBy(SongWrittenByArtist song){
-        writtenBy.remove(song);
+    public void removeWrittenBy(Artist artist){
+        if (artists == null) artists = new HashSet<>();
+        artists.remove(artist);
     }
 
-    public SongDTO getDTO(){
-        return new SongDTO(id, title, length, releaseDate, lyrics);
-    }
 }

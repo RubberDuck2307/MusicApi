@@ -1,13 +1,12 @@
 package com.example.music.authentication;
 
-import com.example.music.exception.InvalidDataException;
-import com.example.music.exception.UserEmailTakenException;
+import com.example.music.exception.custom_exceptions.InvalidDataException;
+import com.example.music.exception.custom_exceptions.UserEmailTakenException;
 import com.example.music.jwt.JwtService;
 import com.example.music.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

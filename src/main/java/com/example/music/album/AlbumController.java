@@ -1,9 +1,7 @@
 package com.example.music.album;
 
-import com.example.music.user.User;
-import com.example.music.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +12,18 @@ public class AlbumController {
     private final AlbumService service;
 
     @PostMapping("/")
-    public void createAlbum(@RequestBody Album album){
-        service.createAlbum(album);
+    public ResponseEntity<AlbumDTO> createAlbum(@RequestBody AlbumDTO album){
+        return service.createAlbum(album);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AlbumDTO> getAlbum(@PathVariable int id){
+       return service.getAlbum(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AlbumDTO> changeAlbum(@PathVariable int id, @RequestBody AlbumDTO albumDTO){
+        return service.changeAlbum(albumDTO, id);
     }
 
 }

@@ -1,8 +1,13 @@
 package com.example.music.config;
 
+import com.example.music.album.Album;
+import com.example.music.album.AlbumDTO;
 import com.example.music.jwt.JwtService;
 import com.example.music.user.UserCredentialsRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,8 +38,14 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+
+        return new ModelMapper();
     }
 
     @Bean
@@ -45,7 +56,7 @@ public class ApplicationConfig {
 
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService());

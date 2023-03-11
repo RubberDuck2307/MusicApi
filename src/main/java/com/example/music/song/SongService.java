@@ -2,8 +2,12 @@ package com.example.music.song;
 
 import com.example.music.album.Album;
 import com.example.music.album.AlbumRepository;
+import com.example.music.artist.Artist;
+import com.example.music.artist.ArtistRepository;
+import com.example.music.relationships.album_song.SongAlbumRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,34 +18,32 @@ import org.springframework.stereotype.Service;
 public class SongService {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
-
-    public ResponseEntity<String> saveSong(Song song) {
-        songRepository.save(song);
-        return new ResponseEntity<>("Song has been successfully created", HttpStatus.OK);
-    }
-
+    private final ArtistRepository artistRepository;
+    private final ModelMapper modelMapper;
     @Transactional
-    public ResponseEntity<String> addSongToAlbum(AddSongToAlbumRequest request) {
-        Song song = songRepository.findById(request.getSongId()).orElseThrow();
-        Album album = albumRepository.findById(request.getAlbumId()).orElseThrow();
+    public ResponseEntity<SongDTO> saveSong(SongDTO songDTO) {
+        Song song = modelMapper.map(songDTO, Song.class);
 
-        song.setAlbum(album);
-        album.addSong(song);
-        return new ResponseEntity<>("Song has been added to the album", HttpStatus.OK);
-    }
+        song = songRepository.save(song);
 
-    @Transactional
-    public ResponseEntity<String> removeSongFromAlbum(int id) {
-        Song song = songRepository.findById(id).orElseThrow();
-        Integer albumId = song.getAlbum().getId();
-        if (albumId != null) {
-            song.setAlbum(null);
-            Album album = albumRepository.findById(albumId).orElseThrow();
-            album.removeSong(song);
-
-            return new ResponseEntity<>("Song has been removed from an album", HttpStatus.OK);
+        if (songDTO.getAlbumId() != null){
+            Album album = albumRepository.findById(songDTO.getAlbumId()).orElseThrow();
+            album.addSong(song);
+            song.setAlbum(album);
         }
-        else return new ResponseEntity<>("Song is not in an album", HttpStatus.BAD_REQUEST);
+
+        if (songDTO.getArtistsId() != null){
+            for (Integer artistId: songDTO.getArtistsId()){
+                Artist artist = artistRepository.findById(artistId).orElseThrow();
+                artist.addSong(song);
+                song.addWrittenBy(artist);
+            }
+        }
+
+
+        songDTO = modelMapper.map(song, SongDTO.class);
+
+        return new ResponseEntity<>(songDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<Song> getSong(int id){

@@ -1,27 +1,23 @@
 package com.example.music.exception;
 
-import io.jsonwebtoken.security.SignatureException;
+import com.example.music.exception.custom_exceptions.InvalidDataException;
+import com.example.music.exception.custom_exceptions.SongInAlbumException;
+import com.example.music.exception.custom_exceptions.UserEmailTakenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.security.auth.login.CredentialException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestResponseEntityHandler extends ResponseEntityExceptionHandler {
@@ -76,6 +72,15 @@ public class RestResponseEntityHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage("The item with such id has not been found");
         return buildResponseEntity(apiError);
     }
+
+    @ExceptionHandler(value = SongInAlbumException.class)
+    protected ResponseEntity<Object> handSongInAlbum(){
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+        apiError.setMessage("The song is already in album");
+        apiError.setDebugMessage("Remove the song from its current album");
+        return buildResponseEntity(apiError);
+    }
+
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
