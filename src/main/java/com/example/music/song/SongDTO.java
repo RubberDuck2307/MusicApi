@@ -3,9 +3,7 @@ package com.example.music.song;
 import com.example.music.album.Album;
 import com.example.music.artist.Artist;
 import com.example.music.artist.ArtistDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
@@ -17,6 +15,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 
 public class SongDTO {
 
@@ -39,5 +40,10 @@ public class SongDTO {
     @JsonIgnore
     public Integer getAlbumId() {
         return albumId;
+    }
+
+    @JsonIgnore
+    public void setArtists(Set<ArtistDTO> artists) {
+        this.artists = artists;
     }
 }

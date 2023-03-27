@@ -31,7 +31,7 @@ public class Artist {
     private String nickname;
     private Date dob;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "music", name = "artist_album",
             joinColumns = {
                     @JoinColumn(name = "artist_id", referencedColumnName = "id")
@@ -43,13 +43,13 @@ public class Artist {
     @JsonManagedReference("artist_album")
     private Set<Album> albums;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(schema = "music", name = "artist_song",
             joinColumns = {
                     @JoinColumn(name = "artist_id", referencedColumnName = "id")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "album_id", referencedColumnName = "id")
+                    @JoinColumn(name = "song_id", referencedColumnName = "id")
             }
     )
     @JsonManagedReference("artist_song")

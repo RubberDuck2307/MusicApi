@@ -35,14 +35,12 @@ public class Album {
     private LocalDate dateOfRelease;
 
     @ManyToMany(mappedBy = "albums",fetch = FetchType.LAZY)
-
     @JsonBackReference("artist_album")
     private Set<Artist> artists;
     @JsonIgnore
     @OneToMany(mappedBy = "album")
     private Set<AlbumRating> ratings;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "album")
     @JsonManagedReference("album_song")
     private Set<Song> songs;

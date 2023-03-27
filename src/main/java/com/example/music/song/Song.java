@@ -45,9 +45,9 @@ public class Song {
     @Column(columnDefinition="TEXT")
     private String lyrics;
 
-    @JsonBackReference("artist_song")
-    @ManyToMany(mappedBy = "songs")
 
+    @ManyToMany(mappedBy = "songs",fetch = FetchType.LAZY)
+    @JsonBackReference("artist_song")
     private Set<Artist> artists;
     public void addRating(SongRating rating){
         if (ratings == null) ratings = new HashSet<>();

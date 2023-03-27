@@ -18,9 +18,13 @@ public class SongController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Song> getSong(@PathVariable int id){
+    public ResponseEntity<SongDTO> getSong(@PathVariable int id){
         return songService.getSong(id);
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<SongDTO> modifySong(@PathVariable int id, @RequestBody SongDTO songDTO){
+        songService.modifySong(id, songDTO);
+        return songService.getSong(id);
+    }
 }

@@ -70,6 +70,32 @@ public class ArtistService {
         return  ResponseEntity.ok(artistDTO);
     }
 
+    @Transactional
+    public Set<Artist> getRemovedArtists(Set<Artist> oldList, Set<Artist> newList){
+
+        Set<Artist> removedArtists = new HashSet<>();
+        for (Artist artist: oldList){
+            if (!newList.contains(artist)){
+                removedArtists.add(artist);
+            }
+        }
+
+        return removedArtists;
+    }
+
+    public Set<Artist> getAddedArtists(Set<Artist> oldList, Set<Artist> newList){
+        Set<Artist> addedArtists = new HashSet<>();
+        for (Artist artist:newList){
+            if (!oldList.contains(artist)){
+                addedArtists.add(artist);
+            }
+        }
+        return addedArtists;
+
+    }
+
+
+
 
     public Set<Artist> getArtistsByIds(Set<Integer> ids){
         return repository.findAllByIdIsIn(ids);

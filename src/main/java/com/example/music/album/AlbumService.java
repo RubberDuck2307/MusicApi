@@ -60,18 +60,8 @@ public class AlbumService {
 
         if (albumDTO.getArtistsId() != null) {
             Set<Artist> artists = artistService.getArtistsByIds(albumDTO.getArtistsId());
-            Set<Artist> removedArtists = new HashSet<>();
-            Set<Artist> addedArtists = new HashSet<>();
-
-            for (Artist artist: artists){
-                if (!album.getArtists().contains(artist)) addedArtists.add(artist);
-
-            }
-
-            for (Artist artist: album.getArtists()){
-                if (!artists.contains(artist)) removedArtists.add(artist);
-
-            }
+            Set<Artist> removedArtists = artistService.getRemovedArtists(album.getArtists(), artists);
+            Set<Artist> addedArtists = artistService.getAddedArtists(album.getArtists(), artists);
 
             for (Artist artist: removedArtists) artist.removeAlbum(album);
 
