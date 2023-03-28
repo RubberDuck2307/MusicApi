@@ -86,6 +86,11 @@ public class SongService {
         songDTO = modelMapper.map(song, SongDTO.class);
         return new ResponseEntity<>(songDTO, HttpStatus.OK);
     }
+
+    public ResponseEntity<String> removeSong(int id){
+        songRepository.deleteById(id);
+        return new ResponseEntity<>("Song has been successfully remove", HttpStatus.OK);
+    }
 }
 
 

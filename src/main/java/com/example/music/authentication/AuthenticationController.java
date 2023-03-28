@@ -2,10 +2,7 @@ package com.example.music.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.CredentialException;
 
@@ -28,10 +25,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.login(request)) ;
     }
 
-    @PostMapping("/test")
-    private ResponseEntity<String> test(){
-        authenticationService.test();
-        return ResponseEntity.ok("hello");
+    @PostMapping("/admin/{id}")
+    private ResponseEntity<String> promoteToAdmin(@PathVariable int id){
+        return authenticationService.promoteToAdmin(id);
     }
+
 
 }

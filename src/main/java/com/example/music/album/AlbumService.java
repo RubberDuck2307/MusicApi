@@ -81,6 +81,11 @@ public class AlbumService {
         return new ResponseEntity<>(albumDTO, HttpStatus.OK);
     }
 
+    public ResponseEntity<String> removeAlbum(int id){
+        albumRepository.deleteById(id);
+        return new ResponseEntity<>("Album has been successfully deleted", HttpStatus.OK);
+    }
+
 
 
 }

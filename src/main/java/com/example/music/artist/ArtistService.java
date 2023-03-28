@@ -94,6 +94,11 @@ public class ArtistService {
 
     }
 
+    public ResponseEntity<String> removeArtist(int id){
+        repository.deleteById(id);
+        return new ResponseEntity<>("Artist has been successfully removed", HttpStatus.OK);
+    }
+
 
 
 

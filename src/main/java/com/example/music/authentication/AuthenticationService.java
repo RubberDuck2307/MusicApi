@@ -5,6 +5,9 @@ import com.example.music.exception.custom_exceptions.UserEmailTakenException;
 import com.example.music.jwt.JwtService;
 import com.example.music.user.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -65,11 +68,11 @@ public class AuthenticationService {
 
 
     }
-
     @Transactional
-    public void test(){
-        UserCredentials userCredentials = credentialsRepository.findByUserEmail("lll").orElseThrow();
+    public ResponseEntity<String> promoteToAdmin(int id){
+        UserCredentials userCredentials = credentialsRepository.findById(id).orElseThrow();
         userCredentials.setRole(Role.ROLE_ADMIN);
+        return new ResponseEntity<>("The user has been set to admin", HttpStatus.OK);
     }
 
 }
